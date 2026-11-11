@@ -10,7 +10,7 @@
                 ]
             },
             "fluency": {
-                "ngram_entropy": 6.18145403299874
+                "ngram_entropy": 6.2443407385393845
             }
         },
         "case_id": 0,
@@ -48,8 +48,8 @@
             ],
             "locality": {
                 "Relation_Specificity_acc": [
-                    0.5,
-                    0.5
+                    0.3333333333333333,
+                    0.16666666666666666
                 ]
             },
             "portability": {
@@ -58,8 +58,19 @@
                 ]
             },
             "fluency": {
-                "ngram_entropy": 6.19550650771547
+                "ngram_entropy": 5.685960290336969
             }
+        },
+        "time": 8.54946756362915,
+        "edit_time_sec": 8.54946756362915,
+        "configured_steps": 25,
+        "actual_steps": 25,
+        "resources": {
+            "cuda_device": 0,
+            "cuda_memory_allocated_gb": 12.7219,
+            "cuda_memory_reserved_gb": 15.9082,
+            "cuda_peak_memory_allocated_gb": 15.7339,
+            "cuda_peak_memory_reserved_gb": 15.9082
         }
     }
 ]

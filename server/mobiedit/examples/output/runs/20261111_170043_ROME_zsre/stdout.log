@@ -1,0 +1,757 @@
+-----read data begin-----
+-----read data-----
+-----zsre/counterfact----
+./output/runs/20261111_170043_ROME_zsre/ZsRE-demo.json_zsre_pre_edit.json
+2026-11-11 17:00:43,843 - easyeditor.editors.editor - INFO - Instantiating model
+torch_dtype: torch.float32
+quan: False
+===========load in fp32===========
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|#####     | 1/2 [00:05<00:05,  5.06s/it]Loading checkpoint shards: 100%|##########| 2/2 [00:08<00:00,  4.25s/it]Loading checkpoint shards: 100%|##########| 2/2 [00:08<00:00,  4.37s/it]
+2026-11-11 17:00:53,500 - easyeditor.editors.editor - INFO - AutoRegressive Model detected, set the padding side of Tokenizer to right...
+---edit---
+---edit request---
+  0%|          | 0/1 [00:00<?, ?it/s]prompts: ['The father of Adriano Giannini is whom?']
+prompt_target: ['The father of Adriano Giannini is whom? Adriano Giannini']
+Decoded output (answers):  ano Giannini
+Decoded ground truth (labels):  Adriano Giannini
+ret: {'rewrite_acc': [0.8]}
+locality_key: Relation_Specificity
+compute_locality_quality
+prompts: ['The mother of Adriano Giannini is', 'Adriano Giannini mother']
+prompt_target: ['The mother of Adriano Giannini is Livia Giampalmo', 'Adriano Giannini mother Livia Giampalmo']
+Decoded output (answers): [' aina Giannietomb', ' wasina Giannierimo']
+Decoded ground truth (labels): [' Livia Giampalmo', ' Livia Giampalmo']
+ret: {'Relation_Specificity_output': [[264, 2210, 15392, 1020, 3891, 2855], [572, 2210, 15392, 1020, 53939, 6355]]}
+prompts: ['Who is the father of Adriano Giannini?']
+prompt_target: ['Who is the father of Adriano Giannini? Adriano Giannini']
+Decoded output (answers):  Adriano Giannini
+Decoded ground truth (labels):  Adriano Giannini
+100%|##########| 1/1 [00:03<00:00,  3.60s/it]100%|##########| 1/1 [00:03<00:00,  3.60s/it]
+  0%|          | 0/1 [00:00<?, ?it/s]---edit func---
+Executing ROME algorithm for the update: [The father of Adriano Giannini is whom?] -> [ Adriano Giannini]
+Cached context templates ['{}', 'The following is. {}', 'Therefore, the. {}', 'Because it is. {}', "I'm taking. {}", 'You are given. {}']
+Computing left vector (u)...
+request['target_new']:  Adriano Giannini
+target target_ids.shape: torch.Size([5])
+request['prompt']: The father of {} is whom?
+len of all_prompts: 7
+all_prompts: ['The father of {} is whom? Adriano Giann', 'The following is. The father of {} is whom? Adriano Giann', 'Therefore, the. The father of {} is whom? Adriano Giann', 'Because it is. The father of {} is whom? Adriano Giann', "I'm taking. The father of {} is whom? Adriano Giann", 'You are given. The father of {} is whom? Adriano Giann', '{} is a']
+prompt.format: ['The father of Adriano Giannini is whom? Adriano Giann', 'The following is. The father of Adriano Giannini is whom? Adriano Giann', 'Therefore, the. The father of Adriano Giannini is whom? Adriano Giann', 'Because it is. The father of Adriano Giannini is whom? Adriano Giann', "I'm taking. The father of Adriano Giannini is whom? Adriano Giann", 'You are given. The father of Adriano Giannini is whom? Adriano Giann', 'Adriano Giannini is a']
+Initial GPU memory allocated: 12.71 GB
+Initial GPU memory reserved: 12.76 GB
+Selected u projection object Adriano Giannini
+Left vector shape: torch.Size([11008])
+-----Computing right vector (v)------
+开始时间: 17:00:57
+request['subject']: Adriano Giannini
+subject target_ids.shape: torch.Size([6])
+request['prompt']: The father of {} is whom?
+prompt target_ids.shape: torch.Size([7])
+request['target_new']:  Adriano Giannini
+target target_ids.shape: torch.Size([5])
+request['prompt']: The father of {} is whom?
+len of all_prompts: 7
+all_prompts: ['<|im_start|>system\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\n<|im_start|>user\nThe father of {} is whom? Adriano Giann<|im_end|>\n<|im_start|>assistant\n', '<|im_start|>system\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\n<|im_start|>user\nThe following is. The father of {} is whom? Adriano Giann<|im_end|>\n<|im_start|>assistant\n', '<|im_start|>system\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\n<|im_start|>user\nTherefore, the. The father of {} is whom? Adriano Giann<|im_end|>\n<|im_start|>assistant\n', '<|im_start|>system\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\n<|im_start|>user\nBecause it is. The father of {} is whom? Adriano Giann<|im_end|>\n<|im_start|>assistant\n', "<|im_start|>system\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\n<|im_start|>user\nI'm taking. The father of {} is whom? Adriano Giann<|im_end|>\n<|im_start|>assistant\n", '<|im_start|>system\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\n<|im_start|>user\nYou are given. The father of {} is whom? Adriano Giann<|im_end|>\n<|im_start|>assistant\n', '<|im_start|>system\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\n<|im_start|>user\n{} is a<|im_end|>\n<|im_start|>assistant\n']
+prompt.format: ['<|im_start|>system\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\n<|im_start|>user\nThe father of Adriano Giannini is whom? Adriano Giann<|im_end|>\n<|im_start|>assistant\n', '<|im_start|>system\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\n<|im_start|>user\nThe following is. The father of Adriano Giannini is whom? Adriano Giann<|im_end|>\n<|im_start|>assistant\n', '<|im_start|>system\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\n<|im_start|>user\nTherefore, the. The father of Adriano Giannini is whom? Adriano Giann<|im_end|>\n<|im_start|>assistant\n', '<|im_start|>system\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\n<|im_start|>user\nBecause it is. The father of Adriano Giannini is whom? Adriano Giann<|im_end|>\n<|im_start|>assistant\n', "<|im_start|>system\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\n<|im_start|>user\nI'm taking. The father of Adriano Giannini is whom? Adriano Giann<|im_end|>\n<|im_start|>assistant\n", '<|im_start|>system\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\n<|im_start|>user\nYou are given. The father of Adriano Giannini is whom? Adriano Giann<|im_end|>\n<|im_start|>assistant\n', '<|im_start|>system\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\n<|im_start|>user\nAdriano Giannini is a<|im_end|>\n<|im_start|>assistant\n']
+Initial GPU memory allocated: 12.71 GB
+Initial GPU memory reserved: 12.81 GB
+request['subject']: Adriano Giannini
+token_length: 48
+token_length_unpadding: tensor([44, 48, 48, 48, 48, 48, 37], device='cuda:0')
+input token shape: torch.Size([7, 48])
+Lookup index found: 31 | Sentence: <|im_start|>system
+You are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>
+<|im_start|>user
+The father of Adriano Giannini is whom? Adriano Giann<|im_end|>
+<|im_start|>assistant
+ | Token: ini
+lookup_idx: [31, 35, 35, 35, 35, 35, 29]
+Rewrite layer is 5
+Tying optimization objective to 27
+model:Qwen2ForCausalLM(
+  (model): Qwen2Model(
+    (embed_tokens): Embedding(151936, 2048)
+    (layers): ModuleList(
+      (0-35): 36 x Qwen2DecoderLayer(
+        (self_attn): Qwen2Attention(
+          (q_proj): Linear(in_features=2048, out_features=2048, bias=True)
+          (k_proj): Linear(in_features=2048, out_features=256, bias=True)
+          (v_proj): Linear(in_features=2048, out_features=256, bias=True)
+          (o_proj): Linear(in_features=2048, out_features=2048, bias=False)
+          (rotary_emb): Qwen2RotaryEmbedding()
+        )
+        (mlp): Qwen2MLP(
+          (gate_proj): Linear(in_features=2048, out_features=11008, bias=False)
+          (up_proj): Linear(in_features=2048, out_features=11008, bias=False)
+          (down_proj): Linear(in_features=11008, out_features=2048, bias=False)
+          (act_fn): SiLU()
+        )
+        (input_layernorm): Qwen2RMSNorm((2048,), eps=1e-06)
+        (post_attention_layernorm): Qwen2RMSNorm((2048,), eps=1e-06)
+      )
+    )
+    (norm): Qwen2RMSNorm((2048,), eps=1e-06)
+  )
+  (lm_head): Linear(in_features=2048, out_features=151936, bias=False)
+)
+TraceDict will hook: model.layers.27
+TraceDict will hook: model.layers.5.mlp
+cur_layer: model.layers.5.mlp
+Recording initial value of v*
+target_init:tensor([ 0.5873,  0.3803,  0.4749,  ..., -0.5860,  0.3598,  0.8423],
+       device='cuda:0')
+cur_layer: model.layers.27
+cos_sim.mean:0.9927746653556824
+nll_loss: 22.895788192749023, kl_loss: 0.0, weight_decay_: 0.00010808113438542932, total_loss: 22.895896911621094
+loss 22.896 = 22.896 + 0.0 + 0.0 avg prob of [ Adriano Giannini] 1.1849128622731797e-10
+前向传播耗时: 0.16s
+Iter 0/24, ZO loss=22.8959
+
+模型内存使用情况:
+ - 参数总内存: 11771.92MB
+反向传播耗时: 0.09s
+Real gradient norm: 0.2780923843383789
+Real gradient (mean ± std): 1.5775e-04 ± 6.1445e-03
+step_size:0.4999998211860657
+cos_sim:0.8923261165618896
+cos_sim.mean:0.8923261165618896
+Delta norm after update: 50.12672805786133
+Final GPU memory allocated: 13.14 GB
+Final GPU memory reserved: 15.70 GB
+TraceDict will hook: model.layers.27
+TraceDict will hook: model.layers.5.mlp
+cur_layer: model.layers.5.mlp
+cur_layer: model.layers.27
+cos_sim.mean:0.9892152547836304
+nll_loss: 22.53060531616211, kl_loss: 0.010540095157921314, weight_decay_: 0.00012137129670009017, total_loss: 22.54126739501953
+loss 22.541 = 22.531 + 0.011 + 0.0 avg prob of [ Adriano Giannini] 1.6970091998302905e-10
+前向传播耗时: 0.10s
+Iter 1/24, ZO loss=22.5413
+
+模型内存使用情况:
+ - 参数总内存: 11771.92MB
+反向传播耗时: 0.09s
+Real gradient norm: 0.23890508711338043
+Real gradient (mean ± std): 7.0661e-05 ± 5.2799e-03
+step_size:0.5006775259971619
+cos_sim:0.9642688632011414
+cos_sim.mean:0.9642688632011414
+Delta norm after update: 56.2691650390625
+Final GPU memory allocated: 13.14 GB
+Final GPU memory reserved: 15.91 GB
+TraceDict will hook: model.layers.27
+TraceDict will hook: model.layers.5.mlp
+cur_layer: model.layers.5.mlp
+cur_layer: model.layers.27
+cos_sim.mean:0.9821944236755371
+nll_loss: 22.354816436767578, kl_loss: 0.07583071291446686, weight_decay_: 0.000136243921588175, total_loss: 22.430782318115234
+loss 22.431 = 22.355 + 0.076 + 0.0 avg prob of [ Adriano Giannini] 2.081115141328027e-10
+前向传播耗时: 0.10s
+Iter 2/24, ZO loss=22.4308
+
+模型内存使用情况:
+ - 参数总内存: 11771.92MB
+反向传播耗时: 0.09s
+Real gradient norm: 0.2684994339942932
+Real gradient (mean ± std): 1.8295e-04 ± 5.9317e-03
+step_size:0.5017274618148804
+cos_sim:0.9820200204849243
+cos_sim.mean:0.9820200204849243
+Delta norm after update: 62.44517517089844
+Final GPU memory allocated: 13.14 GB
+Final GPU memory reserved: 15.91 GB
+TraceDict will hook: model.layers.27
+TraceDict will hook: model.layers.5.mlp
+cur_layer: model.layers.5.mlp
+cur_layer: model.layers.27
+cos_sim.mean:0.9923586249351501
+nll_loss: 21.87131118774414, kl_loss: 0.02726324275135994, weight_decay_: 0.00015119781892281026, total_loss: 21.898725509643555
+loss 21.899 = 21.871 + 0.027 + 0.0 avg prob of [ Adriano Giannini] 3.244747248665192e-10
+前向传播耗时: 0.10s
+Iter 3/24, ZO loss=21.8987
+
+模型内存使用情况:
+ - 参数总内存: 11771.92MB
+反向传播耗时: 0.09s
+Real gradient norm: 0.15617209672927856
+Real gradient (mean ± std): 1.2620e-04 ± 3.4495e-03
+step_size:0.49730467796325684
+cos_sim:0.9902019500732422
+cos_sim.mean:0.9902019500732422
+Delta norm after update: 68.59960174560547
+Final GPU memory allocated: 13.14 GB
+Final GPU memory reserved: 15.91 GB
+TraceDict will hook: model.layers.27
+TraceDict will hook: model.layers.5.mlp
+cur_layer: model.layers.5.mlp
+cur_layer: model.layers.27
+cos_sim.mean:0.9916037321090698
+nll_loss: 21.66285514831543, kl_loss: 0.019274180755019188, weight_decay_: 0.00016609946032986045, total_loss: 21.682294845581055
+loss 21.682 = 21.663 + 0.019 + 0.0 avg prob of [ Adriano Giannini] 4.004163112192316e-10
+前向传播耗时: 0.10s
+Iter 4/24, ZO loss=21.6823
+
+模型内存使用情况:
+ - 参数总内存: 11771.92MB
+反向传播耗时: 0.10s
+Real gradient norm: 0.23374871909618378
+Real gradient (mean ± std): -1.9449e-05 ± 5.1664e-03
+step_size:0.5007083415985107
+cos_sim:0.9940026998519897
+cos_sim.mean:0.9940026998519897
+Delta norm after update: 74.04203033447266
+Final GPU memory allocated: 13.14 GB
+Final GPU memory reserved: 15.91 GB
+TraceDict will hook: model.layers.27
+TraceDict will hook: model.layers.5.mlp
+cur_layer: model.layers.5.mlp
+cur_layer: model.layers.27
+cos_sim.mean:0.9937232732772827
+nll_loss: 21.029582977294922, kl_loss: 0.03331870213150978, weight_decay_: 0.00017927716544363648, total_loss: 21.063081741333008
+loss 21.063 = 21.03 + 0.033 + 0.0 avg prob of [ Adriano Giannini] 7.593463635657827e-10
+前向传播耗时: 0.10s
+Iter 5/24, ZO loss=21.0631
+
+模型内存使用情况:
+ - 参数总内存: 11771.92MB
+反向传播耗时: 0.09s
+Real gradient norm: 0.13460998237133026
+Real gradient (mean ± std): -7.1007e-05 ± 2.9744e-03
+step_size:0.4907708168029785
+cos_sim:0.9951097965240479
+cos_sim.mean:0.9951097965240479
+Delta norm after update: 79.43203735351562
+Final GPU memory allocated: 13.14 GB
+Final GPU memory reserved: 15.91 GB
+TraceDict will hook: model.layers.27
+TraceDict will hook: model.layers.5.mlp
+cur_layer: model.layers.5.mlp
+cur_layer: model.layers.27
+cos_sim.mean:0.9928385019302368
+nll_loss: 20.453258514404297, kl_loss: 0.04923363775014877, weight_decay_: 0.00019232791964896023, total_loss: 20.502685546875
+loss 20.503 = 20.453 + 0.049 + 0.0 avg prob of [ Adriano Giannini] 1.3443113289213215e-09
+前向传播耗时: 0.10s
+Iter 6/24, ZO loss=20.5027
+
+模型内存使用情况:
+ - 参数总内存: 11771.92MB
+反向传播耗时: 0.10s
+Real gradient norm: 0.15683194994926453
+Real gradient (mean ± std): -1.4195e-05 ± 3.4663e-03
+step_size:0.49762845039367676
+cos_sim:0.9959853887557983
+cos_sim.mean:0.9959853887557983
+Delta norm after update: 81.2899169921875
+Final GPU memory allocated: 13.14 GB
+Final GPU memory reserved: 15.91 GB
+TraceDict will hook: model.layers.27
+TraceDict will hook: model.layers.5.mlp
+cur_layer: model.layers.5.mlp
+cur_layer: model.layers.27
+cos_sim.mean:0.994204580783844
+nll_loss: 19.891942977905273, kl_loss: 0.04216818884015083, weight_decay_: 0.00019682638230733573, total_loss: 19.934307098388672
+loss 19.934 = 19.892 + 0.042 + 0.0 avg prob of [ Adriano Giannini] 2.348471417334963e-09
+前向传播耗时: 0.10s
+Iter 7/24, ZO loss=19.9343
+
+模型内存使用情况:
+ - 参数总内存: 11771.92MB
+反向传播耗时: 0.09s
+Real gradient norm: 0.16801224648952484
+Real gradient (mean ± std): 2.1759e-05 ± 3.7134e-03
+step_size:0.49051427841186523
+cos_sim:0.9962036609649658
+cos_sim.mean:0.9962036609649658
+Delta norm after update: 81.28990936279297
+Final GPU memory allocated: 13.14 GB
+Final GPU memory reserved: 15.91 GB
+TraceDict will hook: model.layers.27
+TraceDict will hook: model.layers.5.mlp
+cur_layer: model.layers.5.mlp
+cur_layer: model.layers.27
+cos_sim.mean:0.9973514676094055
+nll_loss: 19.14022445678711, kl_loss: 0.039008162915706635, weight_decay_: 0.0001968263677554205, total_loss: 19.17943000793457
+loss 19.179 = 19.14 + 0.039 + 0.0 avg prob of [ Adriano Giannini] 4.9555151093727545e-09
+前向传播耗时: 0.10s
+Iter 8/24, ZO loss=19.1794
+
+模型内存使用情况:
+ - 参数总内存: 11771.92MB
+反向传播耗时: 0.09s
+Real gradient norm: 0.18489055335521698
+Real gradient (mean ± std): 1.3098e-05 ± 4.0865e-03
+step_size:0.5544834136962891
+cos_sim:0.9956274032592773
+cos_sim.mean:0.9956274032592773
+Delta norm after update: 81.2899169921875
+Final GPU memory allocated: 13.14 GB
+Final GPU memory reserved: 15.91 GB
+TraceDict will hook: model.layers.27
+TraceDict will hook: model.layers.5.mlp
+cur_layer: model.layers.5.mlp
+cur_layer: model.layers.27
+cos_sim.mean:0.9954301714897156
+nll_loss: 18.07460594177246, kl_loss: 0.0403301976621151, weight_decay_: 0.00019682638230733573, total_loss: 18.11513328552246
+loss 18.115 = 18.075 + 0.04 + 0.0 avg prob of [ Adriano Giannini] 1.4356650979152619e-08
+前向传播耗时: 0.10s
+Iter 9/24, ZO loss=18.1151
+
+模型内存使用情况:
+ - 参数总内存: 11771.92MB
+反向传播耗时: 0.10s
+Real gradient norm: 0.23661337792873383
+Real gradient (mean ± std): -5.9142e-05 ± 5.2294e-03
+step_size:0.5481959581375122
+cos_sim:0.9949392080307007
+cos_sim.mean:0.9949392080307007
+Delta norm after update: 81.2899169921875
+Final GPU memory allocated: 13.14 GB
+Final GPU memory reserved: 15.91 GB
+TraceDict will hook: model.layers.27
+TraceDict will hook: model.layers.5.mlp
+cur_layer: model.layers.5.mlp
+cur_layer: model.layers.27
+cos_sim.mean:0.9859976172447205
+nll_loss: 16.89393424987793, kl_loss: 0.05744997784495354, weight_decay_: 0.00019682638230733573, total_loss: 16.951580047607422
+loss 16.952 = 16.894 + 0.057 + 0.0 avg prob of [ Adriano Giannini] 4.732765646053849e-08
+前向传播耗时: 0.10s
+Iter 10/24, ZO loss=16.9516
+
+模型内存使用情况:
+ - 参数总内存: 11771.92MB
+反向传播耗时: 0.09s
+Real gradient norm: 0.611022412776947
+Real gradient (mean ± std): -2.5489e-04 ± 1.3503e-02
+step_size:0.5134552717208862
+cos_sim:0.9945158958435059
+cos_sim.mean:0.9945158958435059
+Delta norm after update: 81.2899169921875
+Final GPU memory allocated: 13.14 GB
+Final GPU memory reserved: 15.91 GB
+TraceDict will hook: model.layers.27
+TraceDict will hook: model.layers.5.mlp
+cur_layer: model.layers.5.mlp
+cur_layer: model.layers.27
+cos_sim.mean:0.9852283000946045
+nll_loss: 15.944674491882324, kl_loss: 0.08226824551820755, weight_decay_: 0.00019682638230733573, total_loss: 16.02713966369629
+loss 16.027 = 15.945 + 0.082 + 0.0 avg prob of [ Adriano Giannini] 1.217987346535665e-07
+前向传播耗时: 0.10s
+Iter 11/24, ZO loss=16.0271
+
+模型内存使用情况:
+ - 参数总内存: 11771.92MB
+反向传播耗时: 0.09s
+Real gradient norm: 0.7213874459266663
+Real gradient (mean ± std): -1.9753e-04 ± 1.5943e-02
+step_size:0.49758005142211914
+cos_sim:0.9948223829269409
+cos_sim.mean:0.9948223829269409
+Delta norm after update: 81.2899169921875
+Final GPU memory allocated: 13.14 GB
+Final GPU memory reserved: 15.91 GB
+TraceDict will hook: model.layers.27
+TraceDict will hook: model.layers.5.mlp
+cur_layer: model.layers.5.mlp
+cur_layer: model.layers.27
+cos_sim.mean:0.977858304977417
+nll_loss: 13.966794967651367, kl_loss: 0.056276414543390274, weight_decay_: 0.00019682638230733573, total_loss: 14.02326774597168
+loss 14.023 = 13.967 + 0.056 + 0.0 avg prob of [ Adriano Giannini] 8.648463563076803e-07
+前向传播耗时: 0.10s
+Iter 12/24, ZO loss=14.0233
+
+模型内存使用情况:
+ - 参数总内存: 11771.92MB
+反向传播耗时: 0.09s
+Real gradient norm: 0.4630052447319031
+Real gradient (mean ± std): 6.7145e-05 ± 1.0233e-02
+step_size:0.550828218460083
+cos_sim:0.9949976801872253
+cos_sim.mean:0.9949976801872253
+Delta norm after update: 81.28992462158203
+Final GPU memory allocated: 13.14 GB
+Final GPU memory reserved: 15.91 GB
+TraceDict will hook: model.layers.27
+TraceDict will hook: model.layers.5.mlp
+cur_layer: model.layers.5.mlp
+cur_layer: model.layers.27
+cos_sim.mean:0.9765305519104004
+nll_loss: 12.456632614135742, kl_loss: 0.07055143266916275, weight_decay_: 0.0001968264114111662, total_loss: 12.52738094329834
+loss 12.527 = 12.457 + 0.071 + 0.0 avg prob of [ Adriano Giannini] 3.925045348296408e-06
+前向传播耗时: 0.10s
+Iter 13/24, ZO loss=12.5274
+
+模型内存使用情况:
+ - 参数总内存: 11771.92MB
+反向传播耗时: 0.09s
+Real gradient norm: 0.723508894443512
+Real gradient (mean ± std): 4.1620e-04 ± 1.5986e-02
+step_size:0.5106700658798218
+cos_sim:0.9948816895484924
+cos_sim.mean:0.9948816895484924
+Delta norm after update: 81.2899169921875
+Final GPU memory allocated: 13.14 GB
+Final GPU memory reserved: 15.91 GB
+TraceDict will hook: model.layers.27
+TraceDict will hook: model.layers.5.mlp
+cur_layer: model.layers.5.mlp
+cur_layer: model.layers.27
+cos_sim.mean:0.9852122664451599
+nll_loss: 10.535653114318848, kl_loss: 0.06688322871923447, weight_decay_: 0.00019682638230733573, total_loss: 10.60273265838623
+loss 10.603 = 10.536 + 0.067 + 0.0 avg prob of [ Adriano Giannini] 2.7190639229957014e-05
+前向传播耗时: 0.10s
+Iter 14/24, ZO loss=10.6027
+
+模型内存使用情况:
+ - 参数总内存: 11771.92MB
+反向传播耗时: 0.09s
+Real gradient norm: 0.4376853406429291
+Real gradient (mean ± std): 2.5363e-04 ± 9.6706e-03
+step_size:0.5095110535621643
+cos_sim:0.9955108761787415
+cos_sim.mean:0.9955108761787415
+Delta norm after update: 81.2899169921875
+Final GPU memory allocated: 13.14 GB
+Final GPU memory reserved: 15.91 GB
+TraceDict will hook: model.layers.27
+TraceDict will hook: model.layers.5.mlp
+cur_layer: model.layers.5.mlp
+cur_layer: model.layers.27
+cos_sim.mean:0.9893618226051331
+nll_loss: 9.93897533416748, kl_loss: 0.0638890415430069, weight_decay_: 0.00019682638230733573, total_loss: 10.003061294555664
+loss 10.003 = 9.939 + 0.064 + 0.0 avg prob of [ Adriano Giannini] 4.9787962780101225e-05
+前向传播耗时: 0.10s
+Iter 15/24, ZO loss=10.0031
+
+模型内存使用情况:
+ - 参数总内存: 11771.92MB
+反向传播耗时: 0.09s
+Real gradient norm: 0.39223822951316833
+Real gradient (mean ± std): 3.6943e-05 ± 8.6694e-03
+step_size:0.48003625869750977
+cos_sim:0.9963936805725098
+cos_sim.mean:0.9963936805725098
+Delta norm after update: 81.2899169921875
+Final GPU memory allocated: 13.14 GB
+Final GPU memory reserved: 15.91 GB
+TraceDict will hook: model.layers.27
+TraceDict will hook: model.layers.5.mlp
+cur_layer: model.layers.5.mlp
+cur_layer: model.layers.27
+cos_sim.mean:0.9918550252914429
+nll_loss: 9.156627655029297, kl_loss: 0.06441053748130798, weight_decay_: 0.00019682638230733573, total_loss: 9.221234321594238
+loss 9.221 = 9.157 + 0.064 + 0.0 avg prob of [ Adriano Giannini] 0.0001091710219043307
+前向传播耗时: 0.10s
+Iter 16/24, ZO loss=9.2212
+
+模型内存使用情况:
+ - 参数总内存: 11771.92MB
+反向传播耗时: 0.09s
+Real gradient norm: 0.37284940481185913
+Real gradient (mean ± std): -6.8684e-05 ± 8.2406e-03
+step_size:0.488864541053772
+cos_sim:0.9965241551399231
+cos_sim.mean:0.9965241551399231
+Delta norm after update: 81.28992462158203
+Final GPU memory allocated: 13.14 GB
+Final GPU memory reserved: 15.91 GB
+TraceDict will hook: model.layers.27
+TraceDict will hook: model.layers.5.mlp
+cur_layer: model.layers.5.mlp
+cur_layer: model.layers.27
+cos_sim.mean:0.9898570775985718
+nll_loss: 8.517248153686523, kl_loss: 0.15365390479564667, weight_decay_: 0.0001968264114111662, total_loss: 8.671098709106445
+loss 8.671 = 8.517 + 0.154 + 0.0 avg prob of [ Adriano Giannini] 0.00020624411990866065
+前向传播耗时: 0.10s
+Iter 17/24, ZO loss=8.6711
+
+模型内存使用情况:
+ - 参数总内存: 11771.92MB
+反向传播耗时: 0.09s
+Real gradient norm: 0.6649009585380554
+Real gradient (mean ± std): -2.7986e-05 ± 1.4696e-02
+step_size:0.49719828367233276
+cos_sim:0.9968001842498779
+cos_sim.mean:0.9968001842498779
+Delta norm after update: 81.2899169921875
+Final GPU memory allocated: 13.14 GB
+Final GPU memory reserved: 15.91 GB
+TraceDict will hook: model.layers.27
+TraceDict will hook: model.layers.5.mlp
+cur_layer: model.layers.5.mlp
+cur_layer: model.layers.27
+cos_sim.mean:0.9880050420761108
+nll_loss: 7.651198387145996, kl_loss: 0.172954723238945, weight_decay_: 0.00019682638230733573, total_loss: 7.824349880218506
+loss 7.824 = 7.651 + 0.173 + 0.0 avg prob of [ Adriano Giannini] 0.00048592238454148173
+前向传播耗时: 0.10s
+Iter 18/24, ZO loss=7.8243
+
+模型内存使用情况:
+ - 参数总内存: 11771.92MB
+反向传播耗时: 0.09s
+Real gradient norm: 0.8732042908668518
+Real gradient (mean ± std): 1.8406e-04 ± 1.9299e-02
+step_size:0.4641284644603729
+cos_sim:0.9965458512306213
+cos_sim.mean:0.9965458512306213
+Delta norm after update: 81.2899169921875
+Final GPU memory allocated: 13.14 GB
+Final GPU memory reserved: 15.91 GB
+TraceDict will hook: model.layers.27
+TraceDict will hook: model.layers.5.mlp
+cur_layer: model.layers.5.mlp
+cur_layer: model.layers.27
+cos_sim.mean:0.9848864674568176
+nll_loss: 7.273014068603516, kl_loss: 0.07104576379060745, weight_decay_: 0.00019682638230733573, total_loss: 7.34425687789917
+loss 7.344 = 7.273 + 0.071 + 0.0 avg prob of [ Adriano Giannini] 0.0007095494656823575
+前向传播耗时: 0.10s
+Iter 19/24, ZO loss=7.3443
+
+模型内存使用情况:
+ - 参数总内存: 11771.92MB
+反向传播耗时: 0.09s
+Real gradient norm: 0.593212902545929
+Real gradient (mean ± std): -3.3937e-04 ± 1.3107e-02
+step_size:0.4574850797653198
+cos_sim:0.9970637559890747
+cos_sim.mean:0.9970637559890747
+Delta norm after update: 81.2899169921875
+Final GPU memory allocated: 13.14 GB
+Final GPU memory reserved: 15.91 GB
+TraceDict will hook: model.layers.27
+TraceDict will hook: model.layers.5.mlp
+cur_layer: model.layers.5.mlp
+cur_layer: model.layers.27
+cos_sim.mean:0.9877850413322449
+nll_loss: 6.77716588973999, kl_loss: 0.09507561475038528, weight_decay_: 0.00019682638230733573, total_loss: 6.872438430786133
+loss 6.872 = 6.777 + 0.095 + 0.0 avg prob of [ Adriano Giannini] 0.0011536604724824429
+前向传播耗时: 0.10s
+Iter 20/24, ZO loss=6.8724
+
+模型内存使用情况:
+ - 参数总内存: 11771.92MB
+反向传播耗时: 0.09s
+Real gradient norm: 0.7452799677848816
+Real gradient (mean ± std): -4.2717e-04 ± 1.6467e-02
+step_size:0.4871666431427002
+cos_sim:0.9972474575042725
+cos_sim.mean:0.9972474575042725
+Delta norm after update: 81.2899169921875
+Final GPU memory allocated: 13.14 GB
+Final GPU memory reserved: 15.91 GB
+TraceDict will hook: model.layers.27
+TraceDict will hook: model.layers.5.mlp
+cur_layer: model.layers.5.mlp
+cur_layer: model.layers.27
+cos_sim.mean:0.9911626577377319
+nll_loss: 5.987756252288818, kl_loss: 0.07633388042449951, weight_decay_: 0.00019682638230733573, total_loss: 6.064287185668945
+loss 6.064 = 5.988 + 0.076 + 0.0 avg prob of [ Adriano Giannini] 0.0025443057529628277
+前向传播耗时: 0.10s
+Iter 21/24, ZO loss=6.0643
+
+模型内存使用情况:
+ - 参数总内存: 11771.92MB
+反向传播耗时: 0.09s
+Real gradient norm: 0.4042435884475708
+Real gradient (mean ± std): 9.7098e-05 ± 8.9343e-03
+step_size:0.442632794380188
+cos_sim:0.99757981300354
+cos_sim.mean:0.99757981300354
+Delta norm after update: 81.2899169921875
+Final GPU memory allocated: 13.14 GB
+Final GPU memory reserved: 15.91 GB
+TraceDict will hook: model.layers.27
+TraceDict will hook: model.layers.5.mlp
+cur_layer: model.layers.5.mlp
+cur_layer: model.layers.27
+cos_sim.mean:0.9910463690757751
+nll_loss: 5.552563667297363, kl_loss: 0.07385160773992538, weight_decay_: 0.00019682638230733573, total_loss: 5.626612186431885
+loss 5.627 = 5.553 + 0.074 + 0.0 avg prob of [ Adriano Giannini] 0.003891495754942298
+前向传播耗时: 0.10s
+Iter 22/24, ZO loss=5.6266
+
+模型内存使用情况:
+ - 参数总内存: 11771.92MB
+反向传播耗时: 0.09s
+Real gradient norm: 0.3295460641384125
+Real gradient (mean ± std): 3.0122e-04 ± 7.2776e-03
+step_size:0.41376423835754395
+cos_sim:0.9979618787765503
+cos_sim.mean:0.9979618787765503
+Delta norm after update: 81.2899169921875
+Final GPU memory allocated: 13.14 GB
+Final GPU memory reserved: 15.91 GB
+TraceDict will hook: model.layers.27
+TraceDict will hook: model.layers.5.mlp
+cur_layer: model.layers.5.mlp
+cur_layer: model.layers.27
+cos_sim.mean:0.9945681691169739
+nll_loss: 5.205801010131836, kl_loss: 0.06581109762191772, weight_decay_: 0.00019682638230733573, total_loss: 5.271809101104736
+loss 5.272 = 5.206 + 0.066 + 0.0 avg prob of [ Adriano Giannini] 0.005496710538864136
+前向传播耗时: 0.10s
+Iter 23/24, ZO loss=5.2718
+
+模型内存使用情况:
+ - 参数总内存: 11771.92MB
+反向传播耗时: 0.09s
+Real gradient norm: 0.2845206558704376
+Real gradient (mean ± std): 2.7420e-04 ± 6.2826e-03
+step_size:0.39727306365966797
+cos_sim:0.9982067346572876
+cos_sim.mean:0.9982067346572876
+Delta norm after update: 81.2899169921875
+Final GPU memory allocated: 13.14 GB
+Final GPU memory reserved: 15.91 GB
+TraceDict will hook: model.layers.27
+TraceDict will hook: model.layers.5.mlp
+cur_layer: model.layers.5.mlp
+cur_layer: model.layers.27
+cos_sim.mean:0.9946946501731873
+nll_loss: 4.834842681884766, kl_loss: 0.027056202292442322, weight_decay_: 0.00019682638230733573, total_loss: 4.862095832824707
+loss 4.862 = 4.835 + 0.027 + 0.0 avg prob of [ Adriano Giannini] 0.007975082844495773
+Delta norm: 81.32749938964844
+Change in target norm: 20.322479248046875 to 83.55396270751953 => 63.231483459472656
+Division Factor: 17.46615982055664
+Right vector norm: 4.656289577484131
+总耗时: 4.99s
+Right vector shape: torch.Size([2048])
+Delta norm: 0.9999999403953552
+Delta norm: 4.656289577484131
+Deltas successfully computed for ['model.layers.5.mlp.down_proj.weight']
+---return rome main-----
+
+Processing weight: model.layers.5.mlp.down_proj.weight
+delta_u type: torch.float32, shape: torch.Size([11008])
+delta_u: tensor([-0.0003, -0.0001,  0.0003,  ...,  0.0002, -0.0003, -0.0002],
+       device='cuda:0')
+delta_v type: torch.float32, shape: torch.Size([2048])
+delta_v: tensor([-0.1681,  0.0068,  0.0616,  ..., -0.1425,  0.0417,  0.0136],
+       device='cuda:0')
+upd_matrix type: torch.float32, shape: torch.Size([11008, 2048])
+upd_matrix: tensor([[ 5.4796e-05, -2.2060e-06, -2.0095e-05,  ...,  4.6465e-05,
+         -1.3580e-05, -4.4252e-06],
+        [ 2.0965e-05, -8.4403e-07, -7.6886e-06,  ...,  1.7778e-05,
+         -5.1956e-06, -1.6931e-06],
+        [-5.5437e-05,  2.2318e-06,  2.0330e-05,  ..., -4.7008e-05,
+          1.3738e-05,  4.4769e-06],
+        ...,
+        [-3.2824e-05,  1.3215e-06,  1.2038e-05,  ..., -2.7834e-05,
+          8.1346e-06,  2.6508e-06],
+        [ 4.4298e-05, -1.7834e-06, -1.6245e-05,  ...,  3.7563e-05,
+         -1.0978e-05, -3.5774e-06],
+        [ 2.6139e-05, -1.0523e-06, -9.5858e-06,  ...,  2.2165e-05,
+         -6.4777e-06, -2.1109e-06]], device='cuda:0')
+w type: torch.float32, shape: torch.Size([2048, 11008])
+upd_matrix after match shape type: torch.float32, shape: torch.Size([2048, 11008])
+Weight norm before: 109.05763244628906
+Weight norm after: 109.15644836425781
+before w: Parameter containing:
+tensor([[ 0.0295, -0.0014,  0.0037,  ..., -0.0022,  0.0027,  0.0040],
+        [ 0.0045,  0.0036,  0.0118,  ...,  0.0068, -0.0027, -0.0016],
+        [-0.0013,  0.0080,  0.0022,  ..., -0.0035, -0.0045, -0.0021],
+        ...,
+        [ 0.0510,  0.0027, -0.0069,  ..., -0.0031,  0.0019, -0.0017],
+        [ 0.0447, -0.0019,  0.0074,  ..., -0.0043,  0.0031,  0.0017],
+        [-0.0498,  0.0019,  0.0107,  ..., -0.0044,  0.0018,  0.0001]],
+       device='cuda:0')
+after w: Parameter containing:
+tensor([[ 0.0296, -0.0014,  0.0037,  ..., -0.0022,  0.0027,  0.0040],
+        [ 0.0045,  0.0036,  0.0118,  ...,  0.0068, -0.0027, -0.0016],
+        [-0.0013,  0.0080,  0.0022,  ..., -0.0035, -0.0045, -0.0021],
+        ...,
+        [ 0.0511,  0.0028, -0.0069,  ..., -0.0031,  0.0019, -0.0017],
+        [ 0.0447, -0.0019,  0.0074,  ..., -0.0043,  0.0031,  0.0017],
+        [-0.0498,  0.0019,  0.0107,  ..., -0.0044,  0.0018,  0.0001]],
+       device='cuda:0')
+New weights successfully inserted into ['model.layers.5.mlp.down_proj.weight']
+prompts: ['The father of Adriano Giannini is whom?']
+prompt_target: ['The father of Adriano Giannini is whom? Adriano Giannini']
+Decoded output (answers):  ano Giannadi
+Decoded ground truth (labels):  Adriano Giannini
+ret: {'rewrite_acc': [0.6]}
+locality_key: Relation_Specificity
+compute_locality_quality
+prompts: ['The mother of Adriano Giannini is', 'Adriano Giannini mother']
+prompt_target: ['The mother of Adriano Giannini is Livia Giampalmo', 'Adriano Giannini mother Livia Giampalmo']
+Decoded output (answers): [' Annaú.annietini', ' isú,anniini']
+Decoded ground truth (labels): [' Livia Giampalmo', ' Livia Giampalmo']
+ret: {'Relation_Specificity_output': [[23223, 6654, 13, 1020, 3891, 6591], [374, 6654, 11, 1020, 72, 6591]]}
+prompts: ['Who is the father of Adriano Giannini?']
+prompt_target: ['Who is the father of Adriano Giannini? Adriano Giannini']
+Decoded output (answers):  annano Giannadi
+Decoded ground truth (labels):  Adriano Giannini
+rome main Edit succ: {'rewrite_acc': [0.6], 'locality': {'Relation_Specificity_output': [[23223, 6654, 13, 1020, 3891, 6591], [374, 6654, 11, 1020, 72, 6591]]}, 'portability': {'Logical_Generalization_acc': [0.6]}, 'fluency': {'ngram_entropy': 5.360858078621301}}
+---edit evaluation---
+prompts: ['The father of Adriano Giannini is whom?']
+prompt_target: ['The father of Adriano Giannini is whom? Adriano Giannini']
+Decoded output (answers):  ano Giannadi
+Decoded ground truth (labels):  Adriano Giannini
+ret: {'rewrite_acc': [0.6]}
+locality_key: Relation_Specificity
+compute_locality_quality
+prompts: ['The mother of Adriano Giannini is', 'Adriano Giannini mother']
+prompt_target: ['The mother of Adriano Giannini is Livia Giampalmo', 'Adriano Giannini mother Livia Giampalmo']
+Decoded output (answers): [' Annaú.annietini', ' isú,anniini']
+Decoded ground truth (labels): [' Livia Giampalmo', ' Livia Giampalmo']
+ret: {'Relation_Specificity_output': [[23223, 6654, 13, 1020, 3891, 6591], [374, 6654, 11, 1020, 72, 6591]]}
+prompts: ['Who is the father of Adriano Giannini?']
+prompt_target: ['Who is the father of Adriano Giannini? Adriano Giannini']
+Decoded output (answers):  annano Giannadi
+Decoded ground truth (labels):  Adriano Giannini
+edited_model: Qwen2ForCausalLM(
+  (model): Qwen2Model(
+    (embed_tokens): Embedding(151936, 2048)
+    (layers): ModuleList(
+      (0-35): 36 x Qwen2DecoderLayer(
+        (self_attn): Qwen2Attention(
+          (q_proj): Linear(in_features=2048, out_features=2048, bias=True)
+          (k_proj): Linear(in_features=2048, out_features=256, bias=True)
+          (v_proj): Linear(in_features=2048, out_features=256, bias=True)
+          (o_proj): Linear(in_features=2048, out_features=2048, bias=False)
+          (rotary_emb): Qwen2RotaryEmbedding()
+        )
+        (mlp): Qwen2MLP(
+          (gate_proj): Linear(in_features=2048, out_features=11008, bias=False)
+          (up_proj): Linear(in_features=2048, out_features=11008, bias=False)
+          (down_proj): Linear(in_features=11008, out_features=2048, bias=False)
+          (act_fn): SiLU()
+        )
+        (input_layernorm): Qwen2RMSNorm((2048,), eps=1e-06)
+        (post_attention_layernorm): Qwen2RMSNorm((2048,), eps=1e-06)
+      )
+    )
+    (norm): Qwen2RMSNorm((2048,), eps=1e-06)
+  )
+  (lm_head): Linear(in_features=2048, out_features=151936, bias=False)
+), self.model_name: /root/autodl-tmp/MobiEdit/models/Qwen2.5-3B-Instruct, self.hparams: ROMEHyperParams(quantize=False, use_zo=False, use_random_prefix=False, use_eval=False, layers=[5], fact_token='subject_last', v_num_grad_steps=25, v_lr=0.5, v_loss_layer=27, v_weight_decay=0.001, clamp_norm_factor=4, kl_factor=0.0625, mom2_adjustment=False, context_template_length_params=[[3, 5]], rewrite_module_tmp='model.layers.{}.mlp.down_proj', layer_module_tmp='model.layers.{}', mlp_module_tmp='model.layers.{}.mlp', attn_module_tmp='model.layers.{}.self_attn', ln_f_module='model.norm', lm_head_module='lm_head', mom2_dataset='wikipedia', mom2_n_samples=100000, mom2_dtype='float32', alg_name='ROME', device=0, model_name='/root/autodl-tmp/MobiEdit/models/Qwen2.5-3B-Instruct', stats_dir='./data/stats', max_length=40, model_parallel=False, fp16=False), self.tok: Qwen2TokenizerFast(name_or_path='/root/autodl-tmp/MobiEdit/models/Qwen2.5-3B-Instruct', vocab_size=151643, model_max_length=131072, is_fast=True, padding_side='right', truncation_side='right', special_tokens={'eos_token': '<|endoftext|>', 'unk_token': '<|endoftext|>', 'pad_token': '<|endoftext|>', 'additional_special_tokens': ['<|im_start|>', '<|im_end|>', '<|object_ref_start|>', '<|object_ref_end|>', '<|box_start|>', '<|box_end|>', '<|quad_start|>', '<|quad_end|>', '<|vision_start|>', '<|vision_end|>', '<|vision_pad|>', '<|image_pad|>', '<|video_pad|>']}, clean_up_tokenization_spaces=False),  added_tokens_decoder={
+	151643: AddedToken("<|endoftext|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151644: AddedToken("<|im_start|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151645: AddedToken("<|im_end|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151646: AddedToken("<|object_ref_start|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151647: AddedToken("<|object_ref_end|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151648: AddedToken("<|box_start|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151649: AddedToken("<|box_end|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151650: AddedToken("<|quad_start|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151651: AddedToken("<|quad_end|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151652: AddedToken("<|vision_start|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151653: AddedToken("<|vision_end|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151654: AddedToken("<|vision_pad|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151655: AddedToken("<|image_pad|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151656: AddedToken("<|video_pad|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151657: AddedToken("<tool_call>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=False),
+	151658: AddedToken("</tool_call>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=False),
+	151659: AddedToken("<|fim_prefix|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=False),
+	151660: AddedToken("<|fim_middle|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=False),
+	151661: AddedToken("<|fim_suffix|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=False),
+	151662: AddedToken("<|fim_pad|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=False),
+	151663: AddedToken("<|repo_name|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=False),
+	151664: AddedToken("<|file_sep|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=False),
+}, request: {'prompt': 'The father of Adriano Giannini is whom?', 'target_new': 'Adriano Giannini', 'ground_truth': '<|endoftext|>', 'portability': {'Logical_Generalization': {'prompt': ['Who is the father of Adriano Giannini?'], 'ground_truth': ['Adriano Giannini']}}, 'locality': {'Relation_Specificity': {'prompt': ['The mother of Adriano Giannini is', 'Adriano Giannini mother'], 'ground_truth': ['Livia Giampalmo', 'Livia Giampalmo']}}, 'subject': 'Adriano Giannini'}, self.hparams.device: 0, eval_metric: exact match, test_generation: True
+2026-11-11 17:01:09,167 - easyeditor.editors.editor - INFO - 0 editing: The father of Adriano Giannini is whom? -> Adriano Giannini  
+
+ {'pre': {'rewrite_acc': [0.8], 'portability': {'Logical_Generalization_acc': [1.0]}, 'fluency': {'ngram_entropy': 6.2443407385393845}}, 'case_id': 0, 'requested_rewrite': {'prompt': 'The father of Adriano Giannini is whom?', 'target_new': 'Adriano Giannini', 'ground_truth': '<|endoftext|>', 'portability': {'Logical_Generalization': {'prompt': ['Who is the father of Adriano Giannini?'], 'ground_truth': ['Adriano Giannini']}}, 'locality': {'Relation_Specificity': {'prompt': ['The mother of Adriano Giannini is', 'Adriano Giannini mother'], 'ground_truth': ['Livia Giampalmo', 'Livia Giampalmo']}}, 'subject': 'Adriano Giannini'}, 'post': {'rewrite_acc': [0.6], 'locality': {'Relation_Specificity_acc': [0.3333333333333333, 0.16666666666666666]}, 'portability': {'Logical_Generalization_acc': [0.6]}, 'fluency': {'ngram_entropy': 5.685960290336969}}}
+100%|##########| 1/1 [00:12<00:00, 12.07s/it]100%|##########| 1/1 [00:12<00:00, 12.07s/it]
+Metrics Summary:  {'pre': {'rewrite_acc': 0.8, 'portability': {'Logical_Generalization_acc': 1.0}}, 'post': {'rewrite_acc': 0.6, 'locality': {'Relation_Specificity_acc': 0.25}, 'portability': {'Logical_Generalization_acc': 0.6}}}
+Edit_Succ: 60.0
+Overall_portability: 60.0
+Overall_locality: 25.0
+Fluency: 568.5960290336969

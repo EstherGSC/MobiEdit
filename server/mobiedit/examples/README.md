@@ -73,6 +73,21 @@ In the paper [EasyEdit: An Easy-to-use Knowledge Editing Framework for Large Lan
 
 - Metric results for each editing are stored at `metrics_save_dir`(default: `./YOUR_EDITING_METHOD_results.json`)
 
+### Reproducible run artifacts
+
+`run_knowedit_llama2.py` stores each run in a unique directory under
+`metrics_save_dir/runs/` (or the directory passed with `--run_dir`). The directory
+contains:
+
+- `metrics.json`: per-case pre/post metrics, edit time, and measured GPU memory;
+- `summary.json`: aggregate rewrite, locality, portability, and fluency metrics;
+- `stdout.log`: training and forward-pass output;
+- `run.log`: framework log records;
+- `args.json`, `hparams.json`, and `system.json`: reproducibility metadata;
+- `run_metadata.json`: run status and total wall-clock time.
+
+The script no longer writes a second aggregate result to `logs/results.json`.
+
 > Note that place the model to be edited in the `./hugging_cache` directory.
 
 
