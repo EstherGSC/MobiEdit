@@ -5,9 +5,9 @@ data
 examples/WikiBio
 examples/wiki_recent
 .vscode
-examples/logs
+#examples/logs
 examples/results
-examples/output
+#examples/output
 scripts
 examples/hparams_log/
 examples/llama3-instruction-8b_zsre_pre_edit.json
