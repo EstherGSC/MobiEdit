@@ -414,6 +414,9 @@ class ZOTrainer:
             ori_loss = func(params).detach()  # loss at params
             loss = func(params_minus).detach()  # perturb params with -hv
             turbulence_loss = func(params_plus).detach()  # perturb params with +hv
+            if hasattr(self, "_step_loss_plus"):
+                self._step_loss_plus.append(turbulence_loss.item())
+                self._step_loss_minus.append(loss.item())
             
             # 立即删除不需要的变量
             del params_minus, params_plus
@@ -559,6 +562,8 @@ class ZOTrainer:
         loss_buffer = []
         jvp_buffer = []
         cos_sims = []
+        self._step_loss_plus = []
+        self._step_loss_minus = []
         Hessian_estimators = []
         # if len(self.v_buffer) == 0:
         for _ in range(v_nums):
@@ -778,6 +783,7 @@ class ZOTrainer:
 
         loss = 0
         v_nums = 5 # 扰动数量
+        print(f"ZO_NUM_DIRECTIONS={v_nums}")
         v_buffer = []
         loss_buffer = []
         jvp_buffer = []
@@ -829,6 +835,12 @@ class ZOTrainer:
 
         # record 5 step loss
         loss += loss_.item()
+        print(
+            f"ZO_STEP i={self.current_iteration} "
+            f"loss_plus={np.mean(self._step_loss_plus):.6f} "
+            f"loss_minus={np.mean(self._step_loss_minus):.6f} "
+            f"loss={loss_.item():.6f} jvp={jvp_buffer[-1].item():.6f}"
+        )
         self.loss_history.append(loss)
         if len(self.loss_history) > 2:
             self.loss_history.pop(0)
@@ -1062,4 +1074,3 @@ class ZOTrainer:
         loss += loss_.item()
         return torch.tensor(loss)
     
-

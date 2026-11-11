@@ -2,6 +2,9 @@ from typing import Optional, Union, List, Tuple, Dict
 from time import time
 from tqdm import tqdm
 import json
+import os
+import resource
+from datetime import datetime
 import torch
 import numpy as np
 import random
@@ -26,10 +29,41 @@ logging.basicConfig(format = '%(asctime)s - %(levelname)s - %(name)s -   %(messa
 
 LOG = logging.getLogger(__name__)
 def make_logs():
-
-    f_h, s_h = get_handler('logs', log_name='run.log')
+    if getattr(LOG, "_mobiedit_configured", False):
+        return
+    log_dir = os.environ.get("MOBIEDIT_LOG_DIR", "logs")
+    f_h, s_h = get_handler(log_dir, log_name='run.log')
     LOG.addHandler(f_h)
     LOG.addHandler(s_h)
+    LOG.propagate = False
+    LOG._mobiedit_configured = True
+
+
+def _resource_snapshot(reset=False):
+    """Return measurable process/GPU resources without making assumptions."""
+    snapshot = {}
+    if torch.cuda.is_available():
+        if reset:
+            torch.cuda.reset_peak_memory_stats()
+        snapshot["cuda_device"] = torch.cuda.current_device()
+        snapshot["cuda_memory_allocated_gb"] = round(
+            torch.cuda.memory_allocated() / 1024**3, 4
+        )
+        snapshot["cuda_memory_reserved_gb"] = round(
+            torch.cuda.memory_reserved() / 1024**3, 4
+        )
+        snapshot["cuda_peak_memory_allocated_gb"] = round(
+            torch.cuda.max_memory_allocated() / 1024**3, 4
+        )
+        snapshot["cuda_peak_memory_reserved_gb"] = round(
+            torch.cuda.max_memory_reserved() / 1024**3, 4
+        )
+    return snapshot
+
+
+def _cpu_peak_memory_gb():
+    usage = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+    return round(usage / 1024**2, 4)
 
 def seed_everything(seed):
     if seed >= 10000:
@@ -43,6 +77,7 @@ def seed_everything(seed):
     torch.manual_seed(seed)
     np.random.seed(seed)
     random.seed(seed)
+    print(f"SEED={seed}")
     
 seed_everything(42)
   
@@ -397,6 +432,7 @@ class BaseEditor:
         assert hasattr(self.hparams, 'batch_size'), f'Method {self.alg_name} found, pls specify the batch_size....'
         all_metrics = []
         for record_chunks in _chunks(requests, self.hparams.batch_size):
+            _resource_snapshot(reset=True)
             start = time()
 
             edited_model, weights_copy = self.apply_algo(
@@ -409,6 +445,7 @@ class BaseEditor:
             )
             exec_time = time() - start
             LOG.info(f"Execution editing took {exec_time}")
+            resources = _resource_snapshot()
 
             start = time()
             chunk_metrics = []
@@ -418,6 +455,10 @@ class BaseEditor:
                     'case_id': i,
                     "requested_rewrite": request,
                     "time": exec_time,
+                    "edit_time_sec": exec_time,
+                    "configured_steps": getattr(self.hparams, "v_num_grad_steps", None),
+                    "actual_steps": getattr(self.hparams, "last_steps", None),
+                    "resources": resources,
                     "post": compute_edit_quality(edited_model, self.model_name, self.hparams, self.tok, request, self.hparams.device, test_generation=test_generation),
                 }
 
@@ -469,6 +510,7 @@ class BaseEditor:
         eval_metric= kwargs['eval_metric'] if 'eval_metric' in kwargs.keys() else 'exact match'
         if hasattr(self.hparams, 'batch_size'):  # For Singleton Editing, bs=1
             assert self.hparams.batch_size == 1, 'Single Editing: batch_size should be set to 1'
+        print(f"BATCH_SIZE={getattr(self.hparams, 'batch_size', 1)}")
         all_metrics = []
         if 'pre_edit' in kwargs and kwargs['pre_edit'] is not None:
             metrics = kwargs['pre_edit']
@@ -536,12 +578,24 @@ class BaseEditor:
                 if "metric_kwargs" in kwargs:
                     all_metrics[idx].update(compute_sent_metric(self.model, edited_model, self.model_name, self.hparams, self.tok,metric_kwargs=kwargs["metric_kwargs"][idx], device=self.hparams.device))
                 if 'locality' in all_metrics[idx]['post'].keys():
+                    post_locality_values = []
+                    pre_has_accuracy = False
                     for locality_key in request['locality'].keys():
                         locality_result = []
                         for ans, label in zip(all_metrics[idx]['post']['locality'][f'{locality_key}_output'], all_metrics[idx]['pre']['locality'][f'{locality_key}_output']):
                             locality_result.append(np.mean(np.equal(ans, label)))
+                        post_locality_values.extend(locality_result)
+                        pre_has_accuracy = pre_has_accuracy or any(
+                            key.endswith("_acc")
+                            for key in all_metrics[idx]['pre']['locality']
+                        )
                         all_metrics[idx]['post']['locality'][f'{locality_key}_acc'] = locality_result
                         all_metrics[idx]['post']['locality'].pop(f'{locality_key}_output')
+                    post_locality = np.mean(post_locality_values) if post_locality_values else None
+                    if pre_has_accuracy:
+                        print(f"LOCALITY_ACC pre=AVAILABLE post={post_locality}")
+                    else:
+                        print(f"LOCALITY_ACC pre=NOT_EVALUATED post={post_locality}")
                     all_metrics[idx]['pre'].pop('locality')
 
             if verbose:
@@ -558,8 +612,33 @@ class BaseEditor:
                 edit_evaluation(all_metrics, request, edited_model, i, test_generation, icl_examples, **kwargs)
         else:
             for i, request in enumerate(tqdm(requests, total=len(requests))):
+                case_start = datetime.now().isoformat()
+                print(f"CASE_START case_id={i}")
+                print(f"CASE_TS case_id={i} start={case_start}")
+                if request.get("ground_truth") in (None, "", "<|endoftext|>"):
+                    print(f"WARN ground_truth_invalid case_id={i}")
+                _resource_snapshot(reset=True)
+                edit_start = time()
                 edited_model, weights_copy, icl_examples = edit_func(request)
+                edit_time = time() - edit_start
+                resources = _resource_snapshot()
+                print(f"TIMING edit_sec={edit_time:.6f}")
+                print(f"CPU_PEAK_MEM_GB={_cpu_peak_memory_gb()}")
                 edit_evaluation(all_metrics, request, edited_model, i, test_generation, icl_examples, **kwargs)
+                eval_time = time() - edit_start - edit_time
+                print(f"TIMING eval_sec={eval_time:.6f}")
+                all_metrics[i]["time"] = edit_time
+                all_metrics[i]["edit_time_sec"] = edit_time
+                all_metrics[i]["configured_steps"] = getattr(
+                    self.hparams, "v_num_grad_steps", None
+                )
+                all_metrics[i]["actual_steps"] = getattr(
+                    self.hparams, "last_steps", None
+                )
+                all_metrics[i]["resources"] = resources
+                case_end = datetime.now().isoformat()
+                print(f"CASE_TS case_id={i} start={case_start} end={case_end}")
+                print(f"CASE_END case_id={i}")
                 if self.alg_name == 'KN' or self.alg_name == 'GRACE' or self.alg_name == 'WISE':
                     with torch.no_grad():
                         weights_copy()
@@ -809,5 +888,3 @@ class BaseEditor:
         print("---deep edit---")
         metrics = self.apply_algo(datasets, self.hparams)
         return metrics
-
-

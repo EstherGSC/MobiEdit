@@ -207,6 +207,8 @@ def compute_v_randomprefix_zo(
 
         # 若损失小于阈值，提前退出
         if loss < 5e-2:
+            print(f"EARLY_STOP triggered_at_step={it + 1} reason=loss_below_threshold")
+            hparams.last_steps = it + 1
             break
 
 
@@ -237,6 +239,12 @@ def compute_v_randomprefix_zo(
 
     # 记录总耗时
     total_time = time.time() - start_time
+    actual_steps = getattr(hparams, "last_steps", it + 1)
+    hparams.last_steps = actual_steps
+    print(
+        f"ACTUAL_STEPS={actual_steps} "
+        f"CONFIGURED_STEPS={hparams.v_num_grad_steps}"
+    )
     print(f"总耗时: {format_time(total_time)}")
 
     return right_vector
@@ -420,6 +428,7 @@ def compute_v_randomprefix(
             break
 
         if it == hparams.v_num_grad_steps - 1:
+            hparams.last_steps = it + 1
             break
 
         # 前向传播结束
@@ -468,6 +477,12 @@ def compute_v_randomprefix(
     print(f"Right vector norm: {right_vector.norm()}")
     # 记录总耗时
     total_time = time.time() - start_time
+    actual_steps = getattr(hparams, "last_steps", it + 1)
+    hparams.last_steps = actual_steps
+    print(
+        f"ACTUAL_STEPS={actual_steps} "
+        f"CONFIGURED_STEPS={hparams.v_num_grad_steps}"
+    )
     print(f"总耗时: {format_time(total_time)}")
 
     return right_vector
@@ -640,7 +655,7 @@ def compute_v_zo(
     }
 
     # 3. ========== ZO 优化过程 ==========
-
+    early_stop_triggered = False
     for it in range(hparams.v_num_grad_steps):
         # 调用 trainer 的 forward_grad_step 方法进行一次梯度估计
         # 前向开始
@@ -714,6 +729,9 @@ def compute_v_zo(
 
         # 若损失小于阈值，提前退出
         if loss < 1e-5:
+            print(f"EARLY_STOP triggered_at_step={it + 1} reason=loss_below_threshold")
+            hparams.last_steps = it + 1
+            early_stop_triggered = True
             break
 
     # 4. ========== 获取最终的目标向量 ==========
@@ -742,6 +760,14 @@ def compute_v_zo(
     print(f"Right vector norm: {right_vector.norm()}")
     # 记录总耗时
     total_time = time.time() - start_time
+    actual_steps = getattr(hparams, "last_steps", it + 1)
+    hparams.last_steps = actual_steps
+    if not early_stop_triggered:
+        print("EARLY_STOP=not_triggered")
+    print(
+        f"ACTUAL_STEPS={actual_steps} "
+        f"CONFIGURED_STEPS={hparams.v_num_grad_steps}"
+    )
     print(f"总耗时: {format_time(total_time)}")
 
     return right_vector
@@ -1293,6 +1319,12 @@ def compute_v(
     print(f"Right vector norm: {right_vector.norm()}")
     # 记录总耗时
     total_time = time.time() - start_time
+    actual_steps = getattr(hparams, "last_steps", it + 1)
+    hparams.last_steps = actual_steps
+    print(
+    f"ACTUAL_STEPS={actual_steps} "
+    f"CONFIGURED_STEPS={hparams.v_num_grad_steps}"
+    )
     print(f"总耗时: {format_time(total_time)}")
     # sys.exit(1)
 
