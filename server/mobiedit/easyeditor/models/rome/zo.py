@@ -37,7 +37,11 @@ class ZOTrainer:
         self.hist_perturbation = torch.zeros_like(self.delta)
         self.prefix_cache_flag = args.use_random_prefix
         self.loss_history=[]
-        self.no_prefix_cooldown = 0
+        self._refresh_prefix_this_step = False
+        self._step_loss_plus = []
+        self._step_loss_minus = []
+        if self.prefix_cache_flag:
+            self._clear_prefix_cache()
         if para == True:
             print(f"model device:{next(self.model.parameters()).device}")
             self.model_cache_per_gpu = {}
@@ -71,6 +75,13 @@ class ZOTrainer:
                         model_copy = copy.deepcopy(self.model).to(f"cuda:{gpu_id}")
                     # model_copy.eval()
                         self.model_cache_per_gpu[gpu_id] = model_copy
+
+    def _clear_prefix_cache(self):
+        """Invalidate cached attention projections before a prefix refresh."""
+        for module in self.model.modules():
+            cached_prefixes = getattr(module, "cached_prefixes", None)
+            if isinstance(cached_prefixes, dict):
+                cached_prefixes.clear()
                         # sleep(15)
 
     def _get_learning_rate(self):
@@ -249,13 +260,16 @@ class ZOTrainer:
         ) as tr:
             # print("self.prefix_cache_flag:", self.prefix_cache_flag)
             # print("self.current_iteration:", self.current_iteration)
-            if self.prefix_cache_flag == False or self.current_iteration >= 400:
+            if not self.prefix_cache_flag:
                 print("===no prefix===")
                 logits = self.model(**input_tok).logits
-            elif self.prefix_cache_flag == True and len(self.loss_history) == 2 and loss_gap <= 0.001:
-                print("===update prefix===")
-                logits = self.model(**input_tok, update_prefix=True).logits
-            elif self.prefix_cache_flag == True:
+            else:
+                if self._refresh_prefix_this_step:
+                    self._clear_prefix_cache()
+                    self._refresh_prefix_this_step = False
+                    print("===refresh prefix===")
+                else:
+                    print("===reuse prefix===")
                 logits = self.model(**input_tok, prefix=10).logits
             # print("logits:", logits)
 
@@ -414,9 +428,8 @@ class ZOTrainer:
             ori_loss = func(params).detach()  # loss at params
             loss = func(params_minus).detach()  # perturb params with -hv
             turbulence_loss = func(params_plus).detach()  # perturb params with +hv
-            if hasattr(self, "_step_loss_plus"):
-                self._step_loss_plus.append(turbulence_loss.item())
-                self._step_loss_minus.append(loss.item())
+            self._step_loss_plus.append(turbulence_loss.item())
+            self._step_loss_minus.append(loss.item())
             
             # 立即删除不需要的变量
             del params_minus, params_plus
@@ -784,6 +797,13 @@ class ZOTrainer:
         loss = 0
         v_nums = 5 # 扰动数量
         print(f"ZO_NUM_DIRECTIONS={v_nums}")
+        self._step_loss_plus = []
+        self._step_loss_minus = []
+        self._refresh_prefix_this_step = (
+            self.prefix_cache_flag
+            and len(self.loss_history) == 2
+            and self.loss_history[0] - self.loss_history[1] <= 0.001
+        )
         v_buffer = []
         loss_buffer = []
         jvp_buffer = []
@@ -803,7 +823,7 @@ class ZOTrainer:
             loss_, jvp_ = self.calculate_jvp(f, inputs, delta, vs, h=self.zo_eps)
             print(f"loss_:{loss_}, jvp_:{jvp_}")
             jvp_buffer.append(jvp_)
-            if jvp_ == 0:
+            if jvp_.item() == 0:
                 jvpzeros += 1
         if self.prefix_cache_flag == True and jvpzeros == v_nums:
             print("All jvp are zeros, prefix_cache_flag = False")
@@ -818,10 +838,7 @@ class ZOTrainer:
                 tmp_grad = tmp_grad.cpu().numpy()
 
             # 更新编辑向量delta
-            if self.prefix_cache_flag == True and self.current_iteration >= 400:
-                self.delta -= 1.5 * self._get_learning_rate() * grad_est
-            else:
-                self.delta -= self._get_learning_rate() * grad_est
+            self.delta -= self._get_learning_rate() * (grad_est / v_nums)
             
 
             # Clamp delta to remain within L2 constraint
@@ -834,18 +851,18 @@ class ZOTrainer:
             print(f"delta:{self.delta}")
 
         # record 5 step loss
-        loss += loss_.item()
+        loss = float(np.mean([self._step_loss_plus, self._step_loss_minus]))
         print(
-            f"ZO_STEP i={self.current_iteration} "
+            f"ZO_STEP i={self.current_iteration - 1} "
             f"loss_plus={np.mean(self._step_loss_plus):.6f} "
             f"loss_minus={np.mean(self._step_loss_minus):.6f} "
-            f"loss={loss_.item():.6f} jvp={jvp_buffer[-1].item():.6f}"
+            f"loss={loss:.6f} jvp={torch.stack(jvp_buffer).mean().item():.6f}"
         )
         self.loss_history.append(loss)
         if len(self.loss_history) > 2:
             self.loss_history.pop(0)
         print(f"loss history: {self.loss_history}")
-        return torch.tensor(loss)
+        return torch.tensor(loss, device=self.delta.device)
     
     def compute_jvp_worker(self, vs_list, gpu_id, delta, inputs, device):
         results = []

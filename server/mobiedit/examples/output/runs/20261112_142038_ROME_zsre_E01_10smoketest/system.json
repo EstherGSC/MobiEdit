@@ -5,5 +5,10 @@
   "torch": "2.0.1+cu118",
   "cuda": "11.8",
   "cuda_available": true,
-  "gpu": "NVIDIA GeForce RTX 4090"
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "seed": 42,
+  "transformers_version": "4.44.2",
+  "conda_env": "me",
+  "git_commit": "f8eb0927eb4d273f8de2c80d3e20e3723012bdcb",
+  "git_dirty": true
 }

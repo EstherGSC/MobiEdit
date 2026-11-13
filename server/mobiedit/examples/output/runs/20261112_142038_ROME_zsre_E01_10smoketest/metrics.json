@@ -1,0 +1,742 @@
+[
+  {
+    "pre": {
+      "rewrite_acc": [
+        0.5
+      ],
+      "portability": {
+        "reasoning_acc": [
+          0.25
+        ]
+      },
+      "fluency": {
+        "ngram_entropy": 5.712218112405263
+      }
+    },
+    "case_id": 0,
+    "requested_rewrite": {
+      "prompt": "Which family does Epaspidoceras belong to?",
+      "target_new": "Noctuidae",
+      "ground_truth": "<|endoftext|>",
+      "portability": {
+        "reasoning": {
+          "prompt": [
+            "What is the common name for the family Epaspidoceras belongs to?"
+          ],
+          "ground_truth": [
+            "Owlet moths"
+          ]
+        }
+      },
+      "locality": {
+        "Relation_Specificity": {
+          "prompt": [
+            "The taxon rank of Epaspidoceras is",
+            "Epaspidoceras taxon rank"
+          ],
+          "ground_truth": [
+            "genus",
+            "genus"
+          ]
+        }
+      },
+      "subject": "Epaspidoceras"
+    },
+    "post": {
+      "rewrite_acc": [
+        1.0
+      ],
+      "locality": {
+        "Relation_Specificity_acc": [
+          0.0,
+          0.0
+        ]
+      },
+      "portability": {
+        "reasoning_acc": [
+          0.25
+        ]
+      },
+      "fluency": {
+        "ngram_entropy": 5.673914042872725
+      }
+    },
+    "time": 6.904561758041382,
+    "edit_time_sec": 6.904561758041382,
+    "configured_steps": 25,
+    "actual_steps": 25,
+    "resources": {
+      "cuda_device": 0,
+      "cuda_memory_allocated_gb": 12.7219,
+      "cuda_memory_reserved_gb": 14.0547,
+      "cuda_peak_memory_allocated_gb": 13.8534,
+      "cuda_peak_memory_reserved_gb": 14.0547
+    }
+  },
+  {
+    "pre": {
+      "rewrite_acc": [
+        0.0
+      ],
+      "portability": {
+        "Subject_Aliasing_acc": [
+          0.0
+        ]
+      },
+      "fluency": {
+        "ngram_entropy": 6.303928664973609
+      }
+    },
+    "case_id": 1,
+    "requested_rewrite": {
+      "prompt": "What species is ZIC3 specific to?",
+      "target_new": "male",
+      "ground_truth": "<|endoftext|>",
+      "portability": {
+        "Subject_Aliasing": {
+          "prompt": [
+            "What is the function of Zic family member 3?"
+          ],
+          "ground_truth": [
+            "male"
+          ]
+        }
+      },
+      "locality": {
+        "Relation_Specificity": {
+          "prompt": [
+            "The strand orientation of ZIC3 is",
+            "ZIC3 strand orientation"
+          ],
+          "ground_truth": [
+            "forward strand",
+            "forward strand"
+          ]
+        }
+      },
+      "subject": "ZIC3"
+    },
+    "post": {
+      "rewrite_acc": [
+        1.0
+      ],
+      "locality": {
+        "Relation_Specificity_acc": [
+          0.5,
+          0.0
+        ]
+      },
+      "portability": {
+        "Subject_Aliasing_acc": [
+          0.0
+        ]
+      },
+      "fluency": {
+        "ngram_entropy": 5.1014028998152146
+      }
+    },
+    "time": 5.77047061920166,
+    "edit_time_sec": 5.77047061920166,
+    "configured_steps": 25,
+    "actual_steps": 25,
+    "resources": {
+      "cuda_device": 0,
+      "cuda_memory_allocated_gb": 12.8058,
+      "cuda_memory_reserved_gb": 14.1387,
+      "cuda_peak_memory_allocated_gb": 13.6365,
+      "cuda_peak_memory_reserved_gb": 14.1387
+    }
+  },
+  {
+    "pre": {
+      "rewrite_acc": [
+        0.5
+      ],
+      "portability": {
+        "reasoning_acc": [
+          0.4
+        ]
+      },
+      "fluency": {
+        "ngram_entropy": 6.357643657342528
+      }
+    },
+    "case_id": 2,
+    "requested_rewrite": {
+      "prompt": "What voice type is Louise Grandjean?",
+      "target_new": "mezzo soprano",
+      "ground_truth": "<|endoftext|>",
+      "portability": {
+        "reasoning": {
+          "prompt": [
+            "What is the vocal range of Louise Grandjean as a mezzo soprano?"
+          ],
+          "ground_truth": [
+            "A3 to A5"
+          ]
+        }
+      },
+      "locality": {
+        "Relation_Specificity": {
+          "prompt": [
+            "The country of citizenship of Louise Grandjean is",
+            "Louise Grandjean country of citizenship"
+          ],
+          "ground_truth": [
+            "France",
+            "France"
+          ]
+        }
+      },
+      "subject": "Louise Grandjean"
+    },
+    "post": {
+      "rewrite_acc": [
+        1.0
+      ],
+      "locality": {
+        "Relation_Specificity_acc": [
+          1.0,
+          0.0
+        ]
+      },
+      "portability": {
+        "reasoning_acc": [
+          0.2
+        ]
+      },
+      "fluency": {
+        "ngram_entropy": 4.852061973065664
+      }
+    },
+    "time": 5.793930530548096,
+    "edit_time_sec": 5.793930530548096,
+    "configured_steps": 25,
+    "actual_steps": 25,
+    "resources": {
+      "cuda_device": 0,
+      "cuda_memory_allocated_gb": 12.8058,
+      "cuda_memory_reserved_gb": 14.1387,
+      "cuda_peak_memory_allocated_gb": 13.8086,
+      "cuda_peak_memory_reserved_gb": 14.1387
+    }
+  },
+  {
+    "pre": {
+      "rewrite_acc": [
+        0.25
+      ],
+      "portability": {
+        "Logical_Generalization_acc": [
+          0.5
+        ]
+      },
+      "fluency": {
+        "ngram_entropy": 6.0257299006729275
+      }
+    },
+    "case_id": 3,
+    "requested_rewrite": {
+      "prompt": "Who is listed as Wang Jipeng father?",
+      "target_new": "Wang Chonghua",
+      "ground_truth": "<|endoftext|>",
+      "portability": {
+        "Logical_Generalization": {
+          "prompt": [
+            "Who is the son of Wang Chonghua?"
+          ],
+          "ground_truth": [
+            "Wang Jipeng"
+          ]
+        }
+      },
+      "locality": {
+        "Relation_Specificity": {
+          "prompt": [
+            "The copyright status as a creator of Wang Jipeng is",
+            "Wang Jipeng copyright status as a creator"
+          ],
+          "ground_truth": [
+            "copyrights on works have expired",
+            "copyrights on works have expired"
+          ]
+        }
+      },
+      "subject": "Wang Jipeng"
+    },
+    "post": {
+      "rewrite_acc": [
+        1.0
+      ],
+      "locality": {
+        "Relation_Specificity_acc": [
+          0.4,
+          0.6
+        ]
+      },
+      "portability": {
+        "Logical_Generalization_acc": [
+          0.5
+        ]
+      },
+      "fluency": {
+        "ngram_entropy": 6.05550311904206
+      }
+    },
+    "time": 5.533937692642212,
+    "edit_time_sec": 5.533937692642212,
+    "configured_steps": 25,
+    "actual_steps": 25,
+    "resources": {
+      "cuda_device": 0,
+      "cuda_memory_allocated_gb": 12.8058,
+      "cuda_memory_reserved_gb": 14.1387,
+      "cuda_peak_memory_allocated_gb": 13.8726,
+      "cuda_peak_memory_reserved_gb": 14.1387
+    }
+  },
+  {
+    "pre": {
+      "rewrite_acc": [
+        0.6666666666666666
+      ],
+      "portability": {
+        "Logical_Generalization_acc": [
+          0.875
+        ]
+      },
+      "fluency": {
+        "ngram_entropy": 5.725504531513309
+      }
+    },
+    "case_id": 4,
+    "requested_rewrite": {
+      "prompt": "What was the name of Charlotte of Schaumburg-Lippe mother?",
+      "target_new": "Charlotte of Bourbon-Parma",
+      "ground_truth": "<|endoftext|>",
+      "portability": {
+        "Logical_Generalization": {
+          "prompt": [
+            "Who is the daughter/son of Charlotte of Bourbon-Parma?"
+          ],
+          "ground_truth": [
+            "Charlotte of Schaumburg-Lippe"
+          ]
+        }
+      },
+      "locality": {
+        "Relation_Specificity": {
+          "prompt": [
+            "The noble title of Charlotte of Schaumburg-Lippe is",
+            "Charlotte of Schaumburg-Lippe noble title"
+          ],
+          "ground_truth": [
+            "Queen Consort of Württemberg",
+            "Queen Consort of Württemberg"
+          ]
+        }
+      },
+      "subject": "Charlotte of Schaumburg-Lippe"
+    },
+    "post": {
+      "rewrite_acc": [
+        1.0
+      ],
+      "locality": {
+        "Relation_Specificity_acc": [
+          0.75,
+          0.875
+        ]
+      },
+      "portability": {
+        "Logical_Generalization_acc": [
+          0.875
+        ]
+      },
+      "fluency": {
+        "ngram_entropy": 6.025668980922354
+      }
+    },
+    "time": 4.969158887863159,
+    "edit_time_sec": 4.969158887863159,
+    "configured_steps": 25,
+    "actual_steps": 25,
+    "resources": {
+      "cuda_device": 0,
+      "cuda_memory_allocated_gb": 12.8058,
+      "cuda_memory_reserved_gb": 14.7129,
+      "cuda_peak_memory_allocated_gb": 14.3264,
+      "cuda_peak_memory_reserved_gb": 14.7129
+    }
+  },
+  {
+    "pre": {
+      "rewrite_acc": [
+        0.0
+      ],
+      "portability": {
+        "reasoning_acc": [
+          0.3333333333333333
+        ]
+      },
+      "fluency": {
+        "ngram_entropy": 6.285570709892475
+      }
+    },
+    "case_id": 5,
+    "requested_rewrite": {
+      "prompt": "What constellation is home to Butterfly Cluster?",
+      "target_new": "Orion",
+      "ground_truth": "<|endoftext|>",
+      "portability": {
+        "reasoning": {
+          "prompt": [
+            "What is another name for the constellation that the Butterfly Cluster belongs to?"
+          ],
+          "ground_truth": [
+            "Orion the Hunter"
+          ]
+        }
+      },
+      "locality": {
+        "Relation_Specificity": {
+          "prompt": [
+            "The constellation of Butterfly Cluster is",
+            "Butterfly Cluster constellation"
+          ],
+          "ground_truth": [
+            "Scorpius",
+            "Scorpius"
+          ]
+        }
+      },
+      "subject": "Butterfly Cluster"
+    },
+    "post": {
+      "rewrite_acc": [
+        1.0
+      ],
+      "locality": {
+        "Relation_Specificity_acc": [
+          0.6666666666666666,
+          1.0
+        ]
+      },
+      "portability": {
+        "reasoning_acc": [
+          0.6666666666666666
+        ]
+      },
+      "fluency": {
+        "ngram_entropy": 6.468151081498991
+      }
+    },
+    "time": 5.660527944564819,
+    "edit_time_sec": 5.660527944564819,
+    "configured_steps": 25,
+    "actual_steps": 25,
+    "resources": {
+      "cuda_device": 0,
+      "cuda_memory_allocated_gb": 12.8058,
+      "cuda_memory_reserved_gb": 14.7129,
+      "cuda_peak_memory_allocated_gb": 13.5599,
+      "cuda_peak_memory_reserved_gb": 14.7129
+    }
+  },
+  {
+    "pre": {
+      "rewrite_acc": [
+        0.6
+      ],
+      "portability": {
+        "Logical_Generalization_acc": [
+          0.6
+        ]
+      },
+      "fluency": {
+        "ngram_entropy": 6.3716398963854735
+      }
+    },
+    "case_id": 6,
+    "requested_rewrite": {
+      "prompt": "The father of Juan María Bordaberry is whom?",
+      "target_new": "Gabrielle Bordaberry",
+      "ground_truth": "<|endoftext|>",
+      "portability": {
+        "Logical_Generalization": {
+          "prompt": [
+            "Who is the son/daughter of Gabrielle Bordaberry?"
+          ],
+          "ground_truth": [
+            "Juan María Bordaberry"
+          ]
+        }
+      },
+      "locality": {
+        "Relation_Specificity": {
+          "prompt": [
+            "The place of death of Juan María Bordaberry is",
+            "Juan María Bordaberry place of death"
+          ],
+          "ground_truth": [
+            "Montevideo",
+            "Montevideo"
+          ]
+        }
+      },
+      "subject": "Juan María Bordaberry"
+    },
+    "post": {
+      "rewrite_acc": [
+        1.0
+      ],
+      "locality": {
+        "Relation_Specificity_acc": [
+          0.6666666666666666,
+          0.6666666666666666
+        ]
+      },
+      "portability": {
+        "Logical_Generalization_acc": [
+          0.4
+        ]
+      },
+      "fluency": {
+        "ngram_entropy": 6.032347036028648
+      }
+    },
+    "time": 7.261683464050293,
+    "edit_time_sec": 7.261683464050293,
+    "configured_steps": 25,
+    "actual_steps": 25,
+    "resources": {
+      "cuda_device": 0,
+      "cuda_memory_allocated_gb": 12.8058,
+      "cuda_memory_reserved_gb": 14.7129,
+      "cuda_peak_memory_allocated_gb": 14.0055,
+      "cuda_peak_memory_reserved_gb": 14.7129
+    }
+  },
+  {
+    "pre": {
+      "rewrite_acc": [
+        0.0
+      ],
+      "portability": {
+        "reasoning_acc": [
+          0.5
+        ]
+      },
+      "fluency": {
+        "ngram_entropy": 6.308334625939274
+      }
+    },
+    "case_id": 7,
+    "requested_rewrite": {
+      "prompt": "What level is Javan surili's iucn conservation status?",
+      "target_new": "critically threatened",
+      "ground_truth": "<|endoftext|>",
+      "portability": {
+        "reasoning": {
+          "prompt": [
+            "What is another term for the IUCN conservation status of 'critically threatened', which is the level assigned to the Javan surili?"
+          ],
+          "ground_truth": [
+            "Critically Endangered"
+          ]
+        }
+      },
+      "locality": {
+        "Relation_Specificity": {
+          "prompt": [
+            "The taxon rank of Javan surili is",
+            "Javan surili taxon rank"
+          ],
+          "ground_truth": [
+            "species",
+            "species"
+          ]
+        }
+      },
+      "subject": "Javan surili"
+    },
+    "post": {
+      "rewrite_acc": [
+        1.0
+      ],
+      "locality": {
+        "Relation_Specificity_acc": [
+          0.0,
+          0.0
+        ]
+      },
+      "portability": {
+        "reasoning_acc": [
+          0.5
+        ]
+      },
+      "fluency": {
+        "ngram_entropy": 5.058750359989082
+      }
+    },
+    "time": 6.999030590057373,
+    "edit_time_sec": 6.999030590057373,
+    "configured_steps": 25,
+    "actual_steps": 25,
+    "resources": {
+      "cuda_device": 0,
+      "cuda_memory_allocated_gb": 12.8058,
+      "cuda_memory_reserved_gb": 14.7129,
+      "cuda_peak_memory_allocated_gb": 14.0055,
+      "cuda_peak_memory_reserved_gb": 14.7129
+    }
+  },
+  {
+    "pre": {
+      "rewrite_acc": [
+        0.6666666666666666
+      ],
+      "portability": {
+        "Subject_Aliasing_acc": [
+          0.5555555555555556
+        ]
+      },
+      "fluency": {
+        "ngram_entropy": 6.053605897584706
+      }
+    },
+    "case_id": 8,
+    "requested_rewrite": {
+      "prompt": "What day was USA-199 launched?",
+      "target_new": "20 December 2007",
+      "ground_truth": "<|endoftext|>",
+      "portability": {
+        "Subject_Aliasing": {
+          "prompt": [
+            "When was GPS IIR-18(M) launched?"
+          ],
+          "ground_truth": [
+            "20 December 2007"
+          ]
+        }
+      },
+      "locality": {
+        "Relation_Specificity": {
+          "prompt": [
+            "The country of USA-199 is",
+            "USA-199 country"
+          ],
+          "ground_truth": [
+            "United States of America",
+            "United States of America"
+          ]
+        }
+      },
+      "subject": "USA-199"
+    },
+    "post": {
+      "rewrite_acc": [
+        0.6666666666666666
+      ],
+      "locality": {
+        "Relation_Specificity_acc": [
+          0.75,
+          1.0
+        ]
+      },
+      "portability": {
+        "Subject_Aliasing_acc": [
+          0.5555555555555556
+        ]
+      },
+      "fluency": {
+        "ngram_entropy": 5.994197059422576
+      }
+    },
+    "time": 7.243770599365234,
+    "edit_time_sec": 7.243770599365234,
+    "configured_steps": 25,
+    "actual_steps": 25,
+    "resources": {
+      "cuda_device": 0,
+      "cuda_memory_allocated_gb": 12.8058,
+      "cuda_memory_reserved_gb": 14.7129,
+      "cuda_peak_memory_allocated_gb": 14.1892,
+      "cuda_peak_memory_reserved_gb": 14.7129
+    }
+  },
+  {
+    "pre": {
+      "rewrite_acc": [
+        0.5
+      ],
+      "portability": {
+        "reasoning_acc": [
+          0.6666666666666666
+        ]
+      },
+      "fluency": {
+        "ngram_entropy": 6.346746955243583
+      }
+    },
+    "case_id": 9,
+    "requested_rewrite": {
+      "prompt": "What was the record label of Runaway Sunday?",
+      "target_new": "Motown",
+      "ground_truth": "<|endoftext|>",
+      "portability": {
+        "reasoning": {
+          "prompt": [
+            "Who founded the record label that signed Runaway Sunday?"
+          ],
+          "ground_truth": [
+            "Berry Gordy"
+          ]
+        }
+      },
+      "locality": {
+        "Relation_Specificity": {
+          "prompt": [
+            "The distribution format of Runaway Sunday is",
+            "Runaway Sunday distribution format"
+          ],
+          "ground_truth": [
+            "music streaming",
+            "music streaming"
+          ]
+        }
+      },
+      "subject": "Runaway Sunday"
+    },
+    "post": {
+      "rewrite_acc": [
+        1.0
+      ],
+      "locality": {
+        "Relation_Specificity_acc": [
+          0.0,
+          1.0
+        ]
+      },
+      "portability": {
+        "reasoning_acc": [
+          0.6666666666666666
+        ]
+      },
+      "fluency": {
+        "ngram_entropy": 6.12712591080279
+      }
+    },
+    "time": 6.2247912883758545,
+    "edit_time_sec": 6.2247912883758545,
+    "configured_steps": 25,
+    "actual_steps": 25,
+    "resources": {
+      "cuda_device": 0,
+      "cuda_memory_allocated_gb": 12.8058,
+      "cuda_memory_reserved_gb": 14.7129,
+      "cuda_peak_memory_allocated_gb": 13.7468,
+      "cuda_peak_memory_reserved_gb": 14.7129
+    }
+  }
+]

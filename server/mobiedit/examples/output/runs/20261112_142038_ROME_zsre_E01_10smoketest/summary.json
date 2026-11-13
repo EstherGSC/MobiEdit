@@ -1,0 +1,9 @@
+{
+  "num_records": 10,
+  "edit_success_pct": 96.66666666666666,
+  "rewrite_acc_mean_pct": 96.66666666666666,
+  "rewrite_acc_success_pct": 90.0,
+  "portability_pct": 46.13888888888888,
+  "locality_pct": 49.375,
+  "fluency": 5.738912246346009
+}

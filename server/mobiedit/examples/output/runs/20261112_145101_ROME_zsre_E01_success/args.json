@@ -1,11 +1,11 @@
 {
   "editing_method": "ROME",
   "hparams_dir": "../hparams/ROME_new/qwen2.5-3b-0-baseline",
-  "data_dir": "../../DemoData/benchmark/ZsRE/ZsRE-demo.json",
-  "ds_size": 1,
+  "data_dir": "../../DemoData/benchmark/ZsRE/ZsRE-test-all.json",
+  "ds_size": null,
   "metrics_save_dir": "./output",
   "datatype": "zsre",
   "train_data_path": null,
   "pre_file": "./seq_pre.json",
-  "run_dir": "./output/runs/20261111_170043_ROME_zsre"
+  "run_dir": "./output/runs/20261112_145101_ROME_zsre"
 }

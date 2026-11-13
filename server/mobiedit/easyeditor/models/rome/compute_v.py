@@ -598,9 +598,9 @@ def compute_v_zo(
                 if len(lookup_idxs) != len(cur_out):
                     print(get_tensor_info(new_out[idx, i, :], f"MLP output 激活值"))
                     # 使用加法创建新tensor而不是in-place操作
-                    new_out[idx, i, :] = cur_out[idx, i, :] + delta(cur_out[idx, i, :])
+                    new_out[idx, i, :] = cur_out[idx, i, :] + delta
                 else:
-                    new_out[i, idx, :] = cur_out[i, idx, :] + delta(cur_out[i, idx, :])
+                    new_out[i, idx, :] = cur_out[i, idx, :] + delta
             
             return new_out
         return cur_out
@@ -656,6 +656,9 @@ def compute_v_zo(
 
     # 3. ========== ZO 优化过程 ==========
     early_stop_triggered = False
+    hparams.last_steps = 0
+    early_stop_interval = getattr(hparams, "early_stop_eval_steps", 20)
+    early_stop_threshold = getattr(hparams, "early_stop_threshold", 1.0)
     for it in range(hparams.v_num_grad_steps):
         # 调用 trainer 的 forward_grad_step 方法进行一次梯度估计
         # 前向开始
@@ -669,7 +672,7 @@ def compute_v_zo(
         print(f"Iter {it}/{hparams.v_num_grad_steps - 1}, ZO loss={loss:.4f}")
 
         # 每隔20stepevaluate一次     
-        if it != 0 and it % 20 == 0:
+        if it != 0 and it % early_stop_interval == 0:
             target = trainer.target_init + trainer.delta.to(trainer.target_init.dtype)
 
             # Retrieve cur_input, the current input to the 2nd MLP layer, and
@@ -696,7 +699,7 @@ def compute_v_zo(
                     right_vector.detach(),
                 )
 
-            print(f"Deltas successfully computed for {list(weights.keys())}")
+            print(f"Deltas successfully computed for {list(deltas.keys())}")
             weight_copy = {}
             with torch.no_grad():
                 for w_name, (delta_u, delta_v) in deltas.items():
@@ -714,9 +717,13 @@ def compute_v_zo(
             # print("compute v Edit succ:",compute_edit_quality(model, "qwen2", hparams, tok, request_copy, hparams.device, eval_metric=eval_metric, test_generation=True))
             # print(f"edited_model: {model}, self.model_name: qwen2, self.hparams: {hparams}, self.tok: {tok}, request: {request_copy}, self.hparams.device: {hparams.device}, eval_metric: exact match, test_generation: True")
             
-            # # Early stopping
-            # if edit_quality['rewrite_acc'][0] == 1.0:
-            #     return right_vector
+            rewrite_acc = edit_quality.get("rewrite_acc", [])
+            if rewrite_acc and min(rewrite_acc) >= early_stop_threshold:
+                print(
+                    f"EARLY_STOP triggered_at_step={it + 1} "
+                    "reason=edit_success"
+                )
+                early_stop_triggered = True
 
             # Restore state of original model
             for w_name in deltas.keys():
@@ -725,6 +732,9 @@ def compute_v_zo(
                     w[...] = weight_copy[w_name]
                     # print(f"w[{w_name}]:{w})")
             print("Restore succ:",compute_edit_quality(model, "qwen2", hparams, tok, request_copy, hparams.device))
+            if early_stop_triggered:
+                hparams.last_steps = it + 1
+                break
 
 
         # 若损失小于阈值，提前退出
@@ -760,7 +770,7 @@ def compute_v_zo(
     print(f"Right vector norm: {right_vector.norm()}")
     # 记录总耗时
     total_time = time.time() - start_time
-    actual_steps = getattr(hparams, "last_steps", it + 1)
+    actual_steps = hparams.last_steps or (it + 1)
     hparams.last_steps = actual_steps
     if not early_stop_triggered:
         print("EARLY_STOP=not_triggered")
@@ -815,11 +825,6 @@ def compute_v(
         for context in context_templates
     ], ["{} is a"]
     all_prompts = rewriting_prompts + kl_prompts
-        # all_prompts = rewriting_prompts + kl_prompts
-    all_prompts = [[{"role":"user", "content":m}] for m in all_prompts]
-    all_prompts= tok.apply_chat_template(all_prompts,
-                                    add_generation_prompt=True,
-                                    tokenize=False)
     print("request['prompt']:", request["prompt"])
     print("len of all_prompts:", len(all_prompts))
     print("all_prompts:", all_prompts)
@@ -872,9 +877,9 @@ def compute_v(
     # rewrite layer, i.e. hypothesized fact lookup location, will induce the
     # target token to be predicted at the final layer.
     if hasattr(model.config, 'n_embd'):
-        delta = torch.randn((model.config.n_embd,), requires_grad=True, device=f"cuda:{hparams.device}")
+        delta = torch.zeros((model.config.n_embd,), requires_grad=True, device=f"cuda:{hparams.device}")
     else:
-        delta = torch.randn((model.config.hidden_size,), requires_grad=True, device=f"cuda:{hparams.device}")
+        delta = torch.zeros((model.config.hidden_size,), requires_grad=True, device=f"cuda:{hparams.device}")
         # delta = DeltaMLP(model.config.hidden_size).to(f"cuda:{hparams.device}")
     target_init, kl_distr_init = None, None
 
@@ -882,8 +887,7 @@ def compute_v(
     def edit_output_fn(cur_out, cur_layer):
         nonlocal target_init
         print("cur_layer:", cur_layer)
-        if cur_layer == "model.layers.5.mlp":
-        # if cur_layer == hparams.mlp_module_tmp.format(layer):
+        if cur_layer == hparams.mlp_module_tmp.format(layer):
             # Store initial value of the vector of interest
             if target_init is None:
                 print("Recording initial value of v*")
@@ -948,10 +952,7 @@ def compute_v(
         # 其它情况直接返回
             # return cur_out
     nethook.set_requires_grad(False, model)
-    # nethook.set_requires_grad(True, model.model.layers[5].mlp.down_proj)
     print(f"model:{model}")
-    module_path = f"model.model.layers[5].mlp.down_proj"
-    mod = eval(module_path)
     # Optimizer
     # opt = torch.optim.Adam([delta] + list(mod.parameters()), lr=hparams.v_lr)
     # opt = torch.optim.AdamW([delta, delta_coef], lr=2e-1, betas=(0.9, 0.95), eps=1e-4)
@@ -1057,7 +1058,7 @@ def compute_v(
                 hparams.layer_module_tmp.format(loss_layer),
                 # hparams.layer_module_tmp.format(6),
                 # hparams.mlp_module_tmp.format(layer),
-                "model.layers.5.mlp",
+                hparams.mlp_module_tmp.format(layer),
                 # "model.layers.5.mlp.down_proj",
                 # "model.layers.6.mlp.down_proj",
                 # # "model.layers.6",
@@ -1829,9 +1830,9 @@ def compute_v_delta_mlp(
                 if len(lookup_idxs) != len(cur_out):
                     print(get_tensor_info(new_out[idx, i, :], f"MLP output 激活值"))
                     # 使用加法创建新tensor而不是in-place操作
-                    new_out[idx, i, :] = cur_out[idx, i, :] + delta(cur_out[idx, i, :])
+                    new_out[idx, i, :] = cur_out[idx, i, :] + delta
                 else:
-                    new_out[i, idx, :] = cur_out[i, idx, :] + delta(cur_out[i, idx, :])
+                    new_out[i, idx, :] = cur_out[i, idx, :] + delta
             
             return new_out
         return cur_out
@@ -2169,7 +2170,7 @@ def compute_v_eval(
                     cur_out[idx, i, :] += delta
                     # new_out[idx, i, :] = cur_out[idx, i, :] + delta(cur_out[idx, i, :])
                 else:
-                    new_out[i, idx, :] = cur_out[i, idx, :] + delta(cur_out[i, idx, :])
+                    new_out[i, idx, :] = cur_out[i, idx, :] + delta
             
             return new_out
         return cur_out

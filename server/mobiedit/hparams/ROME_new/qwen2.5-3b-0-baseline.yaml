@@ -2,7 +2,7 @@ alg_name: "ROME"
 model_name: "/root/autodl-tmp/MobiEdit/models/Qwen2.5-3B-Instruct"
 stats_dir: "./data/stats"
 device: 0
-quantize: false
+quantize: true
 use_zo: false
 use_random_prefix: false
 use_eval: false

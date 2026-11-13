@@ -102,7 +102,7 @@ def eval(result_path):
         print('Overall_locality:',Overall_locality)
         
         Fluency_list=[x['post']['fluency']['ngram_entropy'] for x in datas]
-        Fluency=sum(Fluency_list)/len(Fluency_list)*100
+        Fluency=sum(Fluency_list)/len(Fluency_list)
         print('Fluency:',Fluency)
         summary = {
             "num_records": len(datas),

@@ -1,5 +1,5 @@
 alg_name: "ROME"
-model_name: "../../models--Qwen--Qwen2.5-3B-Instruct/snapshots/Qwen2.5-3B-Instruct"
+model_name: "/root/autodl-tmp/MobiEdit/models/Qwen2.5-3B-Instruct"
 stats_dir: "./data/stats"
 device: 0
 quantize: true
